@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Card, User, Textarea } from "@nextui-org/react";
 import UserInput from "./UserInput";
 
-
 export default function ChatbotContainer({ darkMode }) {
   const [messages, setMessages] = useState([
     {
@@ -14,31 +13,12 @@ export default function ChatbotContainer({ darkMode }) {
       author: "Chatbot",
       content: "Response 1",
       timestamp: new Date()
-    },
-    {
-      author: "RC Student",
-      content: "What is HTML?",
-      timestamp: new Date()
-    },
-    {
-      author: "Chatbot",
-      content: "Response 2",
-      timestamp: new Date()
-    },
-    {
-      author: "RC Student",
-      content: "What is CSS?",
-      timestamp: new Date()
-    },
-    {
-      author: "Chatbot",
-      content: "Response 3",
-      timestamp: new Date()
     }
+    // Add more initial messages as needed
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const messagesEndRef = useRef(null);
-  const messagesContainerRef = useRef(null); // Ref for the messages container
+  const messagesContainerRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -46,14 +26,14 @@ export default function ChatbotContainer({ darkMode }) {
 
   useEffect(() => {
     scrollToBottom();
-    updateMessagesContainerHeight(); // Update messages container height whenever messages change
+    updateMessagesContainerHeight();
   }, [messages]);
 
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newMessage = {
       author: "RC Student",
       content: inputMessage,
@@ -62,18 +42,36 @@ export default function ChatbotContainer({ darkMode }) {
 
     setMessages((prevMessages) => [...prevMessages, newMessage]);
 
-    // Logic to get the chatbot response based on the input message
-    // For demonstration purposes, I'm just adding a dummy response
-    const dummyResponse = {
-      author: "Chatbot",
-      content: "Dummy Response",
-      timestamp: new Date()
-    };
-    setMessages((prevMessages) => [...prevMessages, dummyResponse]); // Add chatbot response after user message
+    // Make an API call to the server to get the chatbot response
+    try {
+      const response = await fetch("/openai-api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ queryPrompt: inputMessage })
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch response from server");
+      }
+
+      const responseData = await response.json();
+
+      const chatbotResponse = {
+        author: "Chatbot",
+        content: responseData.choices[0].text.trim(),
+        timestamp: new Date()
+      };
+
+      setMessages((prevMessages) => [...prevMessages, chatbotResponse]);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
     setInputMessage("");
   };
 
-  // Function to update the height of the messages container based on its content
   const updateMessagesContainerHeight = () => {
     if (messagesContainerRef.current) {
       const containerHeight = messagesContainerRef.current.scrollHeight;
@@ -96,9 +94,8 @@ export default function ChatbotContainer({ darkMode }) {
           <div
             className="messages-container mb-4 overflow-y-auto"
             style={{ maxHeight: "30rem" }}
-            ref={messagesContainerRef} // Assign ref to the messages container
+            ref={messagesContainerRef}
           >
-            {/* Display messages */}
             {messages.map((message, index) => (
               <div key={index} className="message-container ">
                 <div
@@ -132,11 +129,10 @@ export default function ChatbotContainer({ darkMode }) {
             ))}
             <div ref={messagesEndRef} />
           </div>
-          {/* User input */}
           <UserInput
             inputMessage={inputMessage}
-            handleInputChange={handleInputChange} //handles input from user
-            handleSubmit={handleSubmit} // handles when the user submits a message
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
           />
         </Card>
       </div>

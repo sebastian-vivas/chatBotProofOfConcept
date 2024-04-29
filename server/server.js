@@ -1,18 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const { Configuration, OpenAIApi } = require("openai");
-
-const configuration = new Configuration({
-    apiKey: "Create env file with OpenAI API key and insert key here",
-});
-const openai = new OpenAIApi(configuration);
+const OpenAI = require('openai');
+const openai = new OpenAI({ apiKey: ""});
 const app = express();
 const port = 3000;
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 app.listen(port, () => {
     console.log(`Node server listening at http://localhost:${port}`);
 });
@@ -20,7 +17,7 @@ app.listen(port, () => {
 app.post("/openai-api", async (req, res) => {
     const data = req.body;
     let promptContext = `Help students learn web development.`;
-    const response = await openai.createCompletion({
+    const response = await openai.completions.create({
         prompt: `${promptContext} ${data.queryPrompt} ?`,
         temperature: 0,
         max_tokens: 60,
