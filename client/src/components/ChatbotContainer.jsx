@@ -7,13 +7,13 @@ export default function ChatbotContainer({ darkMode }) {
     {
       author: "RC Student",
       content: "What tools can I use to debug?",
-      timestamp: new Date()
+      timestamp: new Date(),
     },
     {
       author: "Chatbot",
       content: "Response 1",
-      timestamp: new Date()
-    }
+      timestamp: new Date(),
+    },
     // Add more initial messages as needed
   ]);
   const [inputMessage, setInputMessage] = useState("");
@@ -37,19 +37,19 @@ export default function ChatbotContainer({ darkMode }) {
     const newMessage = {
       author: "RC Student",
       content: inputMessage,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     setMessages((prevMessages) => [...prevMessages, newMessage]);
 
     // Make an API call to the server to get the chatbot response
     try {
-      const response = await fetch("/openai-api", {
+      const response = await fetch("http://localhost:3000/openai-api", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ queryPrompt: inputMessage })
+        body: JSON.stringify({ queryParameter: inputMessage }),
       });
 
       if (!response.ok) {
@@ -61,7 +61,7 @@ export default function ChatbotContainer({ darkMode }) {
       const chatbotResponse = {
         author: "Chatbot",
         content: responseData.choices[0].text.trim(),
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       setMessages((prevMessages) => [...prevMessages, chatbotResponse]);
@@ -88,7 +88,7 @@ export default function ChatbotContainer({ darkMode }) {
             name="RC Student"
             description="Software Engineer"
             avatarProps={{
-              src: "https://i.pravatar.cc/150?u=a04258114e29026702d"
+              src: "https://i.pravatar.cc/150?u=a04258114e29026702d",
             }}
           />
           <div
@@ -111,7 +111,9 @@ export default function ChatbotContainer({ darkMode }) {
                     variant="bordered"
                     value={message.content}
                     label={message.author}
-                    color={message.author === 'RC Student' ? 'secondary' : 'primary'}
+                    color={
+                      message.author === "RC Student" ? "secondary" : "primary"
+                    }
                     minRows={1}
                     maxRows={2}
                   />
