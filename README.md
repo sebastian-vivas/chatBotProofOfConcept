@@ -1,36 +1,38 @@
-
 # ResilientGPT
 
-## Project Overview and Summary
-ResilientGPT is a project designed for students entering the Resilient Coder bootcamp with the aim of becoming full-stack engineers. The project focuses on creating a frontend AI chatbot.
+## Introduction
+ResilientGPT is an AI chatbot designed for future students matriculating into the Resilient Coders bootcamp. The goal is for students to have a reliable virtual assistant to ask questions to during their full-stack development studies. *Note: This is a prototype of the final product.*
 
+[View hosted client here](https://resilient-coders-chatbot.netlify.app)
 
-ResilentGPT aims to build a strong frontend AI chatbot by employing robust components, designing a user-friendly interface, ensuring reliability through unit tests, and offering comprehensive documentation.
+## Features
+- **Real-time Messaging**: Users can engage in real-time conversations with the AI chatbot, receiving instant responses to their queries.
+- **AI-powered Responses**: The chatbot utilizes OpenAI's ChatGPT technology (`gpt-3.5-turbo-instruct model`) to generate intelligent responses based on user input.
+- **Customizable UI**: The app allows users to switch between light and dark modes seamlessly, catering to their preferences and enhancing readability in different environments.
 
-[View Hosted App here](https://resilient-coders-chatbot.netlify.app)
+## Preview
+![ResilientGpt-Cover](https://github.com/socratic617/Chat-Gpt-Ascend/assets/144078314/b6b90bf5-f393-492c-910e-5f3dabc7ae59)
 
-## Usage
+## Getting Started
+1. Clone the repository: `git clone https://github.com/sebastian-vivas/gptChatBot.git`
+2. Navigate to the server directory: `cd server`
+3. Create an .env file with *your* OpenAI API information (`gpt-3.5-turbo-instruct model`):
+    ```
+    OPENAI_API_KEY={your key}
+    ```
+4. Install server dependencies: `npm install`
+5. Run the server: `node server`
+6. Navigate to the client directory (in a new terminal): `cd client`
+7. Install client dependencies: `npm install`
+8. Run the client: `npm run dev`
+9. The app is now live at http://localhost:5173!
 
-To use ResilientGPT, follow these steps:
-
-1. Clone the repository.
-2. Install dependencies (`npm install`).
-3. Run the development (`npm run dev`).
-4. Open the application in your browser.
-
-## Figma Design
-![Figma-Chatbot_RC](https://github.com/socratic617/Chat-Gpt-Ascend/assets/144078314/d9955027-b61d-4ee0-bbbe-aee365a151b2)
-
-## Design Choices
-
-- NextUI, Tailwind, and custom CSS for styling.
-
-## Tech Stack & Frameworks Used
-
+## Tech Stack
 - React
 - JavaScript
 - HTML
 - CSS
+- NextUI, Tailwind
 
 ## Unit Testing - Vitest
 1. Open a separate terminal, while running application
@@ -279,7 +281,3 @@ describe('ChatHistoryContainer', () => {
     1. Renders the component without crashing and ensures certain elements are present.
     2. Verifies that messages for today, yesterday, past 7 days, past 30 days, and past 90 days are displayed.
     3. Checks if user information is rendered correctly.
-
-## Preview:
-![ResilientGpt-Cover](https://github.com/socratic617/Chat-Gpt-Ascend/assets/144078314/b6b90bf5-f393-492c-910e-5f3dabc7ae59)
-
