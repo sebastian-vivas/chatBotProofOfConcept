@@ -33,7 +33,7 @@ To use ResilientGPT, follow these steps:
 - CSS
 
 ## Unit Testing - Vitest
-1. Open a seperate terminal, while running application
+1. Open a separate terminal, while running application
 2. Run testing using (`npm test`)
 
 ### Test Libraries Used
